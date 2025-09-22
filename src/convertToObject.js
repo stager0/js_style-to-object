@@ -7,17 +7,16 @@
  */
 function convertToObject(sourceString) {
   const splittedResult = sourceString.split(';');
-  const newObject = {};
 
-  for (const part of splittedResult) {
-    const splittedPart = part.trim().split(':');
+  const filteredResult = splittedResult.filter(
+    (value) => value.split(':').length === 2,
+  );
 
-    if (splittedPart.length === 2) {
-      newObject[splittedPart[0].trim()] = splittedPart[1].trim();
-    }
-  }
-
-  return newObject;
+  return filteredResult
+    .map((value) => ({
+      [value.split(':')[0].trim()]: value.split(':')[1].trim(),
+    }))
+    .reduce((prev, curr) => ({ ...prev, ...curr }), {});
 }
 
 module.exports = convertToObject;
