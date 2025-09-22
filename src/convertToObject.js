@@ -8,13 +8,13 @@
 function convertToObject(sourceString) {
   const splittedResult = sourceString.split(';');
 
-  const filteredResult = splittedResult.filter(
-    (value) => value.split(':').length === 2,
-  );
+  const filteredResult = splittedResult.filter((value) => value.includes(':'));
 
   return filteredResult
     .map((value) => ({
-      [value.split(':')[0].trim()]: value.split(':')[1].trim(),
+      [value.substring(0, value.indexOf(':')).trim()]: value
+        .substring(value.indexOf(':') + 2)
+        .trim(),
     }))
     .reduce((prev, curr) => ({ ...prev, ...curr }), {});
 }
